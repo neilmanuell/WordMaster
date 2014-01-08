@@ -3,10 +3,10 @@ module.exports = function ( config ) {
       basePath: '../',
       frameworks: ['jasmine'],
       files: [
-         'app/lib/angular/angular.js',
-         'app/lib/angular/angular-*.js',
+         'public/lib/angular/angular.js',
+         'public/lib/angular/angular-*.js',
          'test/lib/angular/angular-mocks.js',
-         'app/js/*.js',
+         'public/js/*.js',
          'test/unit/*.js'
       ],
       autoWatch: true,
