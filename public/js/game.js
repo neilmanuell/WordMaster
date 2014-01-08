@@ -39,68 +39,53 @@ Master = function () {
 
 };
 
-Letter = function ( index, word, master ) {
+LetterVO = function ( letter ) {
 
-   master = master.toUpperCase();
-   word = word.toUpperCase();
-   var m = master[index];
-   var l = word[index];
-   var c = 'NULL';
-   var s = -1;
-
-   this.__defineGetter__( "valid", function () {
-      return false
-   } );
+   var _score = -1;
+   letter = (letter == null ) ? "NULL" : letter.toUpperCase();
 
    this.__defineGetter__( "letter", function () {
-      return l;
+      return letter;
    } );
 
    this.__defineGetter__( "score", function () {
-
-      if (s > -1) {
-         return s;
-      }
-
-      if (l == m) {
-         c = 'btn-success';
-         return 0;
-      }
-
-      if (( master.search( l ) != -1)) {
-         c = 'btn-info';
-         return 1;
-      }
-
-      else {
-         c = 'btn-danger';
-         return 2;
-      }
+      return _score;
    } );
 
    this.__defineGetter__( "class", function () {
 
-      if (c != "NULL") {
-         return c;
+      if (_score == 0) {
+         return "btn-success";
+      }
+
+      else if (_score == 1) {
+         return "btn-info";
       }
 
       else {
-         this.score;
-         return c;
+         return "btn-danger";
       }
 
    } );
+
+   this.setScore = function ( score ) {
+      _score = score;
+   }
 };
 
 
-Word = function ( master ) {
+Word = function ( masterWord ) {
 
    var _letterData = [];
-   var _master = master.word;
+   var _masterWord = masterWord;
    var _word = "";
 
    this.__defineGetter__( "word", function () {
       return _word;
+   } );
+
+   this.__defineGetter__( "mask", function () {
+      return "";
    } );
 
    this.__defineGetter__( "letters", function () {
@@ -115,17 +100,66 @@ Word = function ( master ) {
       return out;
    } );
 
+   this.setWord = function ( word ) {
 
-   this.add = function add( word ) {
       for (var i = 0; i < word.length; i++) {
-         _letterData.push( new Letter( i, word, _master ) );
+         _letterData.push( new LetterVO( word[i] ) );
       }
-      _word = word
+      _word = word.toUpperCase();
+      new Score(_word,_masterWord.word,_letterData).calculateScores();
    };
 
-   var refresh = function () {
-      _letterData.length = 0;
+
+};
+
+Score = function ( word, masterWord, letters ) {
+
+   var _ticked = masterWord;
+
+   this.calculateScores = function () {
+
+      var len = word.length;
+      var letter;
+
+      for (var i = 0; i < len; i++) {
+
+         letter = letters[i];
+
+         if (letter.letter == masterWord[i]) {
+            letter.setScore( 0 );
+            this.tickOff( letter.letter );
+         }
+
+         else if (masterWord.indexOf( letter.letter ) == -1) {
+            letter.setScore( 2 )
+         }
+
+         else {
+            if (this.tickOff( letter.letter )) {
+               letter.setScore( 1 );
+            }
+
+            else{
+               letter.setScore( 2 );
+            }
+         }
+      }
    }
+
+   this.tickOff = function ( letter ) {
+
+      var index = _ticked.indexOf( letter );
+      if (index == -1) {
+         return false;
+      }
+
+      else {
+         _ticked = _ticked.replace(letter, "*");
+        return true;
+      }
+   }
+
+
 
 
 };
@@ -140,7 +174,7 @@ Guesses = function ( master ) {
 
    this.add = function ( guess ) {
       const word = new Word( master );
-      word.add( guess );
+      word.setWord( guess );
       _words.push( word );
    }
 
