@@ -101,20 +101,19 @@ describe( 'service', function () {
             expect( word.letters[6].letter ).toEqual( "Y" );
          } );
 
-        /* it( 'should set correct score for each LetterVO', function () {
+         it( 'should set correct score for each LetterVO', function () {
             expect( word.letters[0].score ).toEqual( 0 );
-           expect( word.letters[1].score ).toEqual( 1 );
-              expect( word.letters[2].score ).toEqual( 0 );
-           expect( word.letters[3].score ).toEqual( 1 );
+            expect( word.letters[1].score ).toEqual( 1 );
+            expect( word.letters[2].score ).toEqual( 0 );
+            expect( word.letters[3].score ).toEqual( 1 );
             expect( word.letters[4].score ).toEqual( 2 );
-           expect( word.letters[5].score ).toEqual( 1 );
-           expect( word.letters[6].score ).toEqual( 2 );
-         } );*/
+            expect( word.letters[5].score ).toEqual( 1 );
+            expect( word.letters[6].score ).toEqual( 2 );
+         } );
 
       } );
 
    } );
-
 
    describe( 'LetterVO', function () {
 
