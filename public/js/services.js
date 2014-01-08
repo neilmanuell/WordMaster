@@ -4,7 +4,6 @@
 
 
 angular.module( 'myApp.services', [] )
-   //http://api.wordnik.com:80/v4/words.json/randomWord?hasDictionaryDef=true&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=8&api_key=9d6000cddc367eae571020e50d10199c936bd9639681e53e0
 
    .factory( 'master', function () {
       return  new Master();
